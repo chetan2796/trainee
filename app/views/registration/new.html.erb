@@ -1,0 +1,38 @@
+<h1>Create Employee </h1>
+
+<%= form_with model: @user, url: sign_up_path do |form| %>
+  <% if @user.errors.any? %>
+    <div class = 'alert alert-danger mt-3'>
+      <% @user.errors.full_messages.each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+  <% end %>
+  <div class='mt-3'>
+    <%= form.label :Email %>
+    <%= form.text_field :email, class: "form-control", placeholder: "stev@job.com" %>
+  </div>
+  <div class='mt-3'>
+    <%= form.label :Password %>
+    <%= form.password_field :password, class: "form-control", placeholder: "password" %>
+  </div>
+  <div class='mt-3'>
+    <%= form.label :Password_confirmation %>
+    <%= form.password_field :password_confirmation, class: "form-control", placeholder: "password_confirmation" %>
+  </div>
+  <div class='mt-3'>
+    <%= form.label :Role %>
+    <%= form.password_field :role, class: "form-control", placeholder: "role" %>
+  </div>
+  <div class='mt-3'>
+    <%= form.label :Address %>
+    <%= form.password_field :address, class: "form-control", placeholder: "address" %>
+  </div>
+  <div class='mt-3'>
+    <%= form.label :Gender %>
+    <%= form.password_field :gender, class: "form-control", placeholder: "gender" %>
+  </div>
+  <div class="mt-3">
+    <%= form.submit "Sign Up",class: "btn btn-primary" %>
+  </div>
+<% end %>
