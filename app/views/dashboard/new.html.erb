@@ -1,5 +1,4 @@
 <h1>Create Employee </h1>
-
 <%= form_with model: @employee, url: dashboard_path do |form| %>
   <% if @employee.errors.any? %>
     <div class = 'alert alert-danger mt-3'>
@@ -8,10 +7,6 @@
       <% end %>
     </div>
   <% end %>
-  <div class='mt-3'>
-    <%= form.label :MentorId %>
-    <%= form.text_field :mentor_id, class: "form-control", placeholder: "mentor id" %>
-  </div>
   <div class='mt-3'>
     <%= form.label :Name %>
     <%= form.text_field :name, class: "form-control", placeholder: "Name" %>
@@ -22,17 +17,42 @@
   </div>
   <div class='mt-3'>
     <%= form.label :Address %>
-    <%= form.password_field :address, class: "form-control", placeholder: "address" %>
+    <%= form.text_field :address, class: "form-control", placeholder: "address" %>
   </div>
   <div class='mt-3'>
     <%= form.label :Role %>
-    <%= form.select :role, Employee.roles.keys %>
+    <%= form.select :role, Employee.roles.keys%>
+  </div>
+  <div class="form_value hide" id="employee_mentor">
+    <div class='mt-3'>
+      <%= form.label :TeamLead %>
+      <%= form.collection_select :mentor_id, Employee.teamlead, :id, :name, {prompt: "select lead"} %>
+    </div>
   </div>
   <div class='mt-3'>
     <%= form.label :Gender %>
-    <%= form.select :gender,Employee.genders.keys %>
+    <%= form.select :gender, Employee.genders.keys %>
   </div>
   <div class="mt-3">
     <%= form.submit "Create User",class: "btn btn-primary" %>
   </div>
 <% end %>
+<style type="text/css">
+  .hide{
+    display: none;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    debugger
+    $('#employee_role').on('change', function(){
+      var role_value = $('#employee_role').find(":selected").val();
+      if(role_value == 'trainees'){
+        $('#employee_mentor').removeClass('hide');
+      }else{
+        $('#employee_mentor').addClass('hide');
+      }
+    });
+  });
+</script>

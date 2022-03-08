@@ -21,6 +21,7 @@ class DashboardController < ApplicationController
     @employee = Employee.new(employee_params)
     @employee.password_digest = SecureRandom.alphanumeric
     if @employee.save
+      # EmployeeMailer.with(email: @employee.email, password: @employee.password_digest).employee_confirmation_email.deliver_now
       redirect_to dashboards_path
     else
       render :new
