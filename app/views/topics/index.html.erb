@@ -1,0 +1,43 @@
+
+<h1>Topics</h1>
+<form action="<%= topics_path %>">
+  <input type="text" placeholder="searching" name="search_key">
+  <button type="submit">Search</button>
+</form>
+<table style = "border: 1px solid black">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Issues</th>
+      <th>Date</th>
+      <th>Source</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @topics.each do |topic| %>
+      <tr>
+        <td><%= topic.name %></td>
+        <td><%= topic.description %></td>
+        <td><%= topic.issues %></td>
+        <td><%= topic.date %></td>
+        <td><%= link_to topic.source, 'https://guides.rubyonrails.org/' %></td>
+        <td><%= link_to 'Show', topic %></td>
+        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+        <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%#= link_to 'Back', dashboards_path %>
+
+<br>
+
+<style type="text/css">
+  table, th, td {
+  border: 1px solid black;
+}
+</style>
+<%#= link_to 'New Topic', new_topic_path %>

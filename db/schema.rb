@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_07_130350) do
+ActiveRecord::Schema.define(version: 2022_03_10_075530) do
 
   create_table "employees", force: :cascade do |t|
     t.string "name"
@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 2022_03_07_130350) do
     t.string "password_digest"
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "issues"
+    t.datetime "date"
+    t.string "source"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "employee_id", null: false
+    t.index ["employee_id"], name: "index_topics_on_employee_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest"
@@ -34,4 +46,5 @@ ActiveRecord::Schema.define(version: 2022_03_07_130350) do
     t.string "gender"
   end
 
+  add_foreign_key "topics", "employees"
 end

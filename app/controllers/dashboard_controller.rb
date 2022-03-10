@@ -4,7 +4,14 @@ class DashboardController < ApplicationController
   require 'securerandom'
 
   def index
-    @employee = Employee.all
+    @employee_trainees = Employee.where(role: "trainees")
+    if params[:search_key]
+      @employee = Employee.where("name LIKE ? ", 
+      "%#{params[:search_key]}%")
+    else
+      @employee = Employee.all
+    end
+  
   end
 
   def show
@@ -19,9 +26,7 @@ class DashboardController < ApplicationController
 
   def create
     @employee = Employee.new(employee_params)
-    @employee.password_digest = SecureRandom.alphanumeric
-    if @employee.save
-      # EmployeeMailer.with(email: @employee.email, password: @employee.password_digest).employee_confirmation_email.deliver_now
+    if @employee.save 
       redirect_to dashboards_path
     else
       render :new
@@ -35,8 +40,11 @@ class DashboardController < ApplicationController
   end
 
   def update
-    @employee = Employee.find_by(params[:email])
-    @employee.update
+    if @employee.update(employee_params)
+      redirect_to edit_employee(@employee), notice: "Topic was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity 
+    end
   end
 
   private
@@ -44,9 +52,7 @@ class DashboardController < ApplicationController
   def employee_params
     params.require(:employee).permit(:mentor_id,:name, :email, :role, :address, :gender)
   end
-
-  def required_login!
-    @employee = Employee.find_by(params[:email])
-  end
 end
+
+
 

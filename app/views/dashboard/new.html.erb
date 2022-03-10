@@ -21,7 +21,7 @@
   </div>
   <div class='mt-3'>
     <%= form.label :Role %>
-    <%= form.select :role, Employee.roles.keys%>
+    <%= form.select :role, Employee.roles.keys %>
   </div>
   <div class="form_value hide" id="employee_mentor">
     <div class='mt-3'>
@@ -45,7 +45,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    debugger
     $('#employee_role').on('change', function(){
       var role_value = $('#employee_role').find(":selected").val();
       if(role_value == 'trainees'){

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :topics
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "main#index"
 
@@ -10,9 +11,11 @@ Rails.application.routes.draw do
   get "dashboards",to: 'dashboard#index'
 
   get "edit_employee/:id", to: 'dashboard#edit'
+  patch "edit_employee/:id", to: 'dashboard#update',as: :edit_employee
 
   get "dashboard", to: "dashboard#new"
   post "dashboard",to: "dashboard#create"
 
   delete "loggout",to: "dashboard#destroy" 
+
 end
