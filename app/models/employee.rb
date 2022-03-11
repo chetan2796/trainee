@@ -8,11 +8,14 @@ class Employee < ApplicationRecord
   
   # Enum
   enum gender: {female: 'female', male: 'male'}
-  enum role: { teamlead: 'teamlead', admin: 'admin', trainees: 'trainees'}
+  enum role: {teamlead: 'teamlead', admin: 'admin', trainees: 'trainees'}
   
   # Association
-  belongs_to :mentor, :class_name => 'Employee', :foreign_key => 'mentor_id'
   has_many :topics
+  belongs_to :mentor, :class_name => 'Employee', :foreign_key => 'mentor_id'
+
+  #scope
+  scope :search_values, -> (params) { where("name LIKE ? ", "%#{params[:search_key]}%")}
 
   def send_email
     EmployeeMailer.employee_confirmation_email(email,password_digest).deliver

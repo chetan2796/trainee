@@ -4,17 +4,17 @@ class DashboardController < ApplicationController
   require 'securerandom'
 
   def index
-    @employee_trainees = Employee.where(role: "trainees")
+    @employee_trainees = Employee.trainees
     if params[:search_key]
-      @employee = Employee.where("name LIKE ? ", 
-      "%#{params[:search_key]}%")
+      @employee = Employee.search_values(params)
     else
       @employee = Employee.all
+      @employee_trainees = Employee.trainees
     end
-  
   end
 
   def show
+    @employee = Employee.find_by(params[:email])
   end
 
   def new

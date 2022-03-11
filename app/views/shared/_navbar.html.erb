@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <% if Current.employee.present? && Current.employee.role == 'admin'  %>
+    <% if @current_user.present? && @current_user.role == 'admin'  %>
       <%= link_to "Navbar", dashboards_path,class: 'navbar-brand' %>
     <% end %>
-    <% if Current.employee.present? && Current.employee.role == 'teamlead'  %>
+    <% if @current_user.present? && @current_user.role == 'teamlead'  %>
       <%= link_to "Navbar", dashboards_path,class: 'navbar-brand' %>
     <% end %>
-    <% if Current.employee.present? && Current.employee.role == 'trainees'  %>
+    <% if @current_user.present? && @current_user.role == 'trainees'  %>
       <%= link_to "Navbar", topics_path,class: 'navbar-brand' %> 
     <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,7 +14,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <% if Current.employee.present? && Current.employee.role == 'admin'  %>
+        <% if @current_user.present? && @current_user.role == 'admin'  %>
           <li class="nav-item">
             <%= link_to "Create User", dashboard_path, class: "nav-link" %>
           </li>
@@ -22,22 +22,22 @@
             <%= link_to "Home", dashboards_path, class: "nav-link" %>
           </li>
         <% end %>
-        <% if Current.employee.present? && Current.employee.role == 'teamlead' %>
+        <% if @current_user.present? && @current_user.role == 'teamlead' %>
           <li class="nav-item">
             <%= link_to "Trainees", dashboards_path, class: "nav-link" %>
           </li>
         <% end %>
-        <% if Current.employee.present? && Current.employee.role == 'trainees' %>
+        <% if @current_user.present? && @current_user.role == 'trainees' %>
           <li class="nav-item">
             <%= link_to "Create topics", new_topic_path, class: "nav-link" %>
           </li>
         <% end %>
       </ul>
       <ul class= "navbar-nav ms-auto mb-2 ">
-        <% if Current.employee.present? %>
+        <% if @current_user.present? %>
         <li class="nav-item">
          <span class="navbar-text">
-          <%= link_to Current.employee.email, class:'nav-link' %>
+          <%= link_to @current_user.email, class:'nav-link' %>
          </span>
         </li>
         <li class="nav-item">

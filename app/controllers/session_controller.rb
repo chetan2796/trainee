@@ -7,7 +7,7 @@ class SessionController < ApplicationController
     employee = Employee.find_by(email: params[:email])
     if employee.present? 
       session[:employee_id] = employee.id
-      redirect_to topics_path, notice: 'Logged in sccessfully' 
+      redirect_to root_path, notice: 'Logged in sccessfully' 
     else
       flash[:alert] = "Invalid email and password"
       render :new

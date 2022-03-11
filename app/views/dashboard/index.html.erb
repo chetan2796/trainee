@@ -1,11 +1,9 @@
 
-<% if Current.employee.role == 'admin' %>
-
-<form action="<%= dashboards_path %>">
-  <input type="text" placeholder="searching" name="search_key">
-  <button type="submit">Search</button>
-</form>
-
+<% if @current_user.role == 'admin' %>
+  <form action="<%= dashboards_path %>">
+    <input type="text" placeholder="searching" name="search_key">
+    <button type="submit">Search</button>
+  </form>
   <table style = "border: 1px solid black" >
     <thead >
       <tr>
@@ -36,15 +34,51 @@
     </tbody>
   </table>
 <% end %>
+
 <br>
-<% if Current.employee.role == 'teamlead' && @employee_trainees.map {|a| p a.mentor_id == Current.employee.id } %>
+<% if @current_user.role == 'teamlead' && @employee_trainees.map {|a| p a.mentor_id == @current_user.id } %>
+  <form action="<%= dashboards_path %>">
+    <input type="text" placeholder="searching" name="search_key">
+    <button type="submit">Search</button>
+  </form>
+  <br>
+  <br>
+  <% if @employee_trainees.present? %>
+    <h1>Trainee list</h1>
+      <table style = "border: 1px solid black" >
+        <thead >
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>role</th>
+            <th>address</th>
+            <th>topics list</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @employee_trainees.each do |employee| %>
+            <tr>
+              <td><%= employee.name %></td>
+              <td><%= employee.email %></td>
+              <td><%= employee.gender %></td>
+              <td><%= employee.role %></td>
+              <td><%= employee.address %></td>
+              <td><%= link_to 'Show',topics_path %></td>
+              <td><%= link_to 'Edit', "/edit_employee/#{employee.id}" %></td>
+              <td><%= button_to 'Destroy', loggout_path, method: :delete, data: { confirm: 'Are you sure?' } %></td> 
+              <%#= button_to 'logout',logout_path,method: :delete, class:'nav-link'%>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+  <% end %>
+<% end %>
 
-<form action="<%= dashboards_path %>">
-  <input type="text" placeholder="searching" name="search_key">
-  <button type="submit">Search</button>
-</form>
 
-<h1>Trainee list</h1>
+<% if @employee.present? && @employee_trainees.present? %>
+  <h1>Searching values are: </h1>
   <table style = "border: 1px solid black" >
     <thead >
       <tr>
@@ -57,9 +91,8 @@
         <th colspan="3"></th>
       </tr>
     </thead>
-
     <tbody>
-      <% @employee_trainees.each do |employee| %>
+      <% @employee.each do |employee| %>
         <tr>
           <td><%= employee.name %></td>
           <td><%= employee.email %></td>
@@ -75,7 +108,10 @@
       <% end %>
     </tbody>
   </table>
+<br>
+<br>
 <% end %>
+
 
 <br>
 <style type="text/css">
