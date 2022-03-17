@@ -5,9 +5,15 @@ class SessionController < ApplicationController
 
   def create
     employee = Employee.find_by(email: params[:email])
-    if employee.present? 
+    if employee.present? && employee.authenticate(params[:password])
       session[:employee_id] = employee.id
-      redirect_to root_path, notice: 'Logged in sccessfully' 
+      if employee.trainees?
+        redirect_to topics_path, notice: 'trainees Logged in sccessfully ' 
+      elsif employee.admin?
+        redirect_to dashboards_path, notice: 'admin Logged in sccessfully '
+      elsif employee.teamlead?
+        redirect_to dashboards_path, notice: 'teamlead Logged in sccessfully '
+      end
     else
       flash[:alert] = "Invalid email and password"
       render :new

@@ -1,15 +1,17 @@
 class DashboardController < ApplicationController
 
+  include SlackNotification
+  require 'slack-notifier'
+
   before_action :require_user_logged_in!
-  require 'securerandom'
 
   def index
-    @employee_trainees = Employee.trainees
+    # @employee_trainees = Employee.trainees 
     if params[:search_key]
       @employee = Employee.search_values(params)
+      @employee_trainees = Employee.trainees.search_values(params)
     else
       @employee = Employee.all
-      @employee_trainees = Employee.trainees
     end
   end
 
@@ -26,7 +28,8 @@ class DashboardController < ApplicationController
 
   def create
     @employee = Employee.new(employee_params)
-    if @employee.save 
+    if @employee.save
+      slack_notify_to_support_employee(@employee.email,@employee.password)
       redirect_to dashboards_path
     else
       render :new
@@ -50,7 +53,7 @@ class DashboardController < ApplicationController
   private
 
   def employee_params
-    params.require(:employee).permit(:mentor_id,:name, :email, :role, :address, :gender)
+    params.require(:employee).permit(:mentor_id, :name, :email, :role, :address, :gender)
   end
 end
 

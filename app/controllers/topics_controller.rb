@@ -1,17 +1,20 @@
 class TopicsController < ApplicationController
+  
+  include SlackNotification
+  require 'slack-notifier'
+  
   before_action :set_topic, only: %i[ show edit update destroy ]
   before_action :require_user_logged_in!
+
   
   def index
-    @topics = Topic.all
+    # @topics = Topic.all
     if params[:search_key]
       @topics = Topic.where("name LIKE ? ", 
       "%#{params[:search_key]}%")
     else
       @topics = Topic.all
     end
-    # binding.pry 
-    # @topics_employee = Topic.where(Current.employee.topics)
   end
 
   def show
@@ -25,9 +28,9 @@ class TopicsController < ApplicationController
   end
 
   def create
-    @topic = Topic.new(topic_params)
-    @topic.employee_id = Current.employee.id
-    if @topic.save
+    @topic = @current_user.topics.create(topic_params)
+    if @topic.present?
+      slack_notify_to_support_topics(@topic.date, @topic.name, @topic.description, @topic.issues, @topic.source)
       redirect_to topic_url(@topic), notice: "Topic was successfully created."
     else
       render :new, status: :unprocessable_entity 

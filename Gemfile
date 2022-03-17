@@ -29,6 +29,9 @@ gem 'letter_opener', '~> 1.4', '>= 1.4.1'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+#sluck notifier
+gem 'slack-notifier', '~> 1.5'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+# require 'lib/slack_notification'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -10,6 +11,8 @@ module ScheduledTweets
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    # config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths += %W(#{config.root}/lib)
 
     # Configuration for the application, engines, and railties goes here.
     #

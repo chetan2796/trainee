@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2022_03_10_075530) do
     t.string "gender"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "mentor_id"
     t.string "password_digest"
+    t.integer "mentor_id"
   end
 
   create_table "topics", force: :cascade do |t|
